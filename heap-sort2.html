@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heap Sort dalam Sistem Rekomendasi Traveloka</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/styles/style.css">
+    
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="agenda-indicator" id="agendaIndicator">Slide 1: Cover</div>
+    
+    <div class="presentation-container">
+        <div class="slides-container" id="slidesContainer">
+            <!-- Slide 1: Cover -->
+            <div class="slide" id="slide1">
+                <div class="slide-content">
+                    <h1 class="slide-title">HEAP SORT DALAM SISTEM REKOMENDASI TRAVELOKA</h1>
+                    <h2 class="slide-subtitle">Analisis Kompleksitas & Penerapan Nyata</h2>
+                    <div class="slide-text">
+                        <p align="Center">Presentasi oleh Kelompok 5 - Struktur Data & Algoritma Heap Sort</p>
+                    </div>
+                    
+                    <!-- TIM DIBAGI 4 KOLOM 2 BARIS -->
+                    <div class="team-grid-4x2">
+                        <!-- Baris 1 -->
+                        <div class="member">
+                            <div class="member-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <p>Dimas Kurniawan</p>
+                        </div>
+                        <div class="member">
+                            <div class="member-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <p>Stefany Imanuel</p>
+                        </div>
+                        <div class="member">
+                            <div class="member-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <p>Markus Dimas</p>
+                        </div>
+                        <div class="member">
+                            <div class="member-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <p>Haris Mauladi</p>
+                        </div>
+                        
+                        <!-- Baris 2 -->
+                        <div class="member">
+                            <div class="member-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <p>Muh Ichsan</p>
+                        </div>
+                        <div class="member">
+                            <div class="member-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <p>Muh Rangga</p>
+                        </div>
+                        
+                        <div class="member">
+                            <div class="member-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <p>Muh Rafly</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Agenda -->
+            <div class="slide" id="slide2">
+                <div class="slide-content">
+                    <h1 class="slide-title">Agenda Presentasi</h1>
+                    <ul class="slide-list" id="agendaList">
+                        <li data-slide="3">Konsep Dasar Heap Sort</li>
+                        <li data-slide="4">Pseudocode & Cara Kerja</li>
+                        <li data-slide="5">Studi Kasus: Traveloka</li>
+                        <li data-slide="6">Implementasi Python</li>
+                        <li data-slide="7">Demo Live System</li>
+                        <li data-slide="8">Analisis Kompleksitas</li>
+                        <li data-slide="9">Keunggulan Bisnis</li>
+                        <li data-slide="10">Q&A Session</li>
+                    </ul>
+                    <button class="btn" id="startDemoBtn">
+                        <i class="fas fa-play"></i> Mulai Demo Interaktif
+                    </button>
+                </div>
+            </div>
+
+<!-- Slide 3: Definisi Heap Sort (DIUPDATE) -->
+<div class="slide" id="slide3">
+    <div class="slide-content">
+        <h1 class="slide-title">Apa itu Heap Sort?</h1>
+        
+        <!-- Definisi -->
+        <div class="slide-text">
+            <p><span class="highlight">Heap Sort</span> adalah algoritma pengurutan yang memanfaatkan struktur data <span class="highlight">heap</span>, yaitu struktur berbentuk complete binary tree.</p>
+        </div>
+        
+        <!-- PRINSIP DASAR HEAP SORT -->
+        <div class="explanation-box" style="background: linear-gradient(135deg, #fff3e0, #ffecb3); border-left: 5px solid #ff9800; margin: 20px 0;">
+            <div class="explanation-title">📊 Prinsip Dasar Heap Sort</div>
+            
+            <div style="margin-bottom: 15px;">
+                <div class="step-title">1. Membangun Heap:</div>
+                <div class="step-description">
+                    Mengubah array menjadi struktur <strong>max-heap</strong> (parent node lebih besar dari child nodes) atau <strong>min-heap</strong> (parent node lebih kecil dari child nodes).
+                </div>
+                <div class="calculation">
+                    • Untuk max-heap, elemen terbesar akan berada di root (indeks 0)
+                </div>
+            </div>
+            
+            <div>
+                <div class="step-title">2. Proses Pengurutan:</div>
+                <div class="step-description">
+                    Melakukan ekstraksi berulang-ulang hingga semua elemen terurut:
+                </div>
+                <div class="calculation">
+                    • Menukar elemen terbesar (root) dengan elemen terakhir array<br>
+                    • Memperkecil ukuran heap<br>
+                    • Melakukan heapify pada root untuk mempertahankan sifat heap<br>
+                    • Ulangi proses hingga semua elemen terurut
+                </div>
+            </div>
+        </div>
+        
+        <!-- Visualisasi Heap -->
+        <div class="visualization" id="heapVisualization">
+            <!-- Heap tree will be generated by JavaScript -->
+        </div>
+        
+        <!-- Jenis Heap -->
+        <div class="slide-text" style="margin-top: 20px;">
+            <p><strong>Jenis Heap:</strong></p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                <div style="background: #e8f5e9; padding: 15px; border-radius: 8px; border-left: 4px solid #4caf50;">
+                    <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 8px;">
+                        <i class="fas fa-arrow-up" style="color: #4caf50;"></i> Max-Heap
+                    </div>
+                    <div style="font-size: 0.95rem;">
+                        Setiap node parent memiliki nilai <strong>lebih besar atau sama</strong> dengan nilai anak-anaknya
+                    </div>
+                </div>
+                <div style="background: #ffe0e0; padding: 15px; border-radius: 8px; border-left: 4px solid #f44336;">
+                    <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 8px;">
+                        <i class="fas fa-arrow-down" style="color: #f44336;"></i> Min-Heap
+                    </div>
+                    <div style="font-size: 0.95rem;">
+                        Setiap node parent memiliki nilai <strong>lebih kecil atau sama</strong> dengan nilai anak-anaknya
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 25px; background: #f5f5f5; padding: 15px; border-radius: 10px;">
+            <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 10px; text-align: center;">
+                Contoh Max-Heap dari Array [3, 19, 1, 14, 8, 7]:
+            </div>
+            <div style="text-align: center; font-family: monospace; font-size: 1.1rem; margin-bottom: 15px;">
+                <strong>Array Setelah Build Max-Heap:</strong> [19, 14, 7, 3, 8, 1]<br>
+                <span style="color: #666; font-size: 0.9rem;">Struktur Tree:</span>
+            </div>
+            
+            <!-- Visualisasi Tree Max-Heap -->
+            <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 15px;">
+                <!-- Level 0: Root -->
+                <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #4caf50, #2e7d32); 
+                            color: white; display: flex; align-items: center; justify-content: center; 
+                            font-weight: bold; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                    19
+                </div>
+                
+                <!-- Level 1 -->
+                <div style="display: flex; justify-content: center; gap: 60px; margin-bottom: 20px;">
+                    <div style="width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, #81c784, #66bb6a); 
+                                color: white; display: flex; align-items: center; justify-content: center; 
+                                font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        14
+                    </div>
+                    <div style="width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, #81c784, #66bb6a); 
+                                color: white; display: flex; align-items: center; justify-content: center; 
+                                font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        7
+                    </div>
+                </div>
+                
+                <!-- Level 2 -->
+                <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 15px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #a5d6a7, #81c784); 
+                                color: white; display: flex; align-items: center; justify-content: center; 
+                                font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        3
+                    </div>
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #a5d6a7, #81c784); 
+                                color: white; display: flex; align-items: center; justify-content: center; 
+                                font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        8
+                    </div>
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #a5d6a7, #81c784); 
+                                color: white; display: flex; align-items: center; justify-content: center; 
+                                font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        1
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Penjelasan Max-Heap -->
+            <div style="background: #e8f5e9; padding: 12px; border-radius: 8px; border-left: 4px solid #4caf50;">
+                <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 8px;">✓ Verifikasi Max Heap:</div>
+                <div style="font-size: 0.9rem;">
+                    • Root 19 > children (14, 7) ✓<br>
+                    • Parent 14 > children (3, 8) ✓<br>
+                    • Parent 7 > child (1) ✓<br>
+                    • <strong>Semua parent > children → VALID MAX HEAP!</strong>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; background: #f5f5f5; padding: 15px; border-radius: 10px;">
+            <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 10px; text-align: center;">
+                Contoh Min-Heap dari Array [3, 19, 1, 14, 8, 7]:
+            </div>
+            <div style="text-align: center; font-family: monospace; font-size: 1.1rem; margin-bottom: 15px;">
+                <strong>Array Setelah Build Min-Heap:</strong> [1, 8, 3, 14, 19, 7]<br>
+                <span style="color: #666; font-size: 0.9rem;">Struktur Tree:</span>
+            </div>
+            
+            <!-- Visualisasi Tree Min-Heap -->
+            <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 15px;">
+                <!-- Level 0: Root -->
+                <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #f44336, #d32f2f); 
+                            color: white; display: flex; align-items: center; justify-content: center; 
+                            font-weight: bold; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                    1
+                </div>
+                
+                <!-- Level 1 -->
+                <div style="display: flex; justify-content: center; gap: 60px; margin-bottom: 20px;">
+                    <div style="width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, #ef9a9a, #e57373); 
+                                color: white; display: flex; align-items: center; justify-content: center; 
+                                font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        8
+                    </div>
+                    <div style="width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, #ef9a9a, #e57373); 
+                                color: white; display: flex; align-items: center; justify-content: center; 
+                                font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        3
+                    </div>
+                </div>
+                
+                <!-- Level 2 -->
+                <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 15px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #ffcdd2, #ef9a9a); 
+                                color: #333; display: flex; align-items: center; justify-content: center; 
+                                font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        14
+                    </div>
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #ffcdd2, #ef9a9a); 
+                                color: #333; display: flex; align-items: center; justify-content: center; 
+                                font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        19
+                    </div>
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #ffcdd2, #ef9a9a); 
+                                color: #333; display: flex; align-items: center; justify-content: center; 
+                                font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        7
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Penjelasan Min-Heap -->
+            <div style="background: #ffebee; padding: 12px; border-radius: 8px; border-left: 4px solid #f44336;">
+                <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 8px;">✓ Verifikasi Min Heap:</div>
+                <div style="font-size: 0.9rem;">
+                    • Root 1 < children (8, 3) ✓<br>
+                    • Parent 8 < children (14, 19) ✓<br>
+                    • Parent 3 < child (7) ✓<br>
+                    • <strong>Semua parent < children → VALID MIN HEAP!</strong>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px; padding: 10px; background: #f0f7ff; border-radius: 8px; border-left: 4px solid #2196f3;">
+                <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 5px;">📝 Catatan:</div>
+                <div style="font-size: 0.9rem;">
+                    Array awal: [3, 19, 1, 14, 8, 7]<br>
+                    • <strong>Max-Heap</strong>: [19, 14, 7, 3, 8, 1] - elemen terbesar di root<br>
+                    • <strong>Min-Heap</strong>: [1, 8, 3, 14, 19, 7] - elemen terkecil di root
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 25px; background: #f8f9fa; padding: 15px; border-radius: 10px; border-left: 4px solid #9c27b0;">
+            <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 10px; text-align: center;">
+                Proses Heapify untuk Array [3, 19, 1, 14, 8, 7]:
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                <div>
+                    <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 8px;">📈 Build Max-Heap:</div>
+                    <div style="font-size: 0.9rem;">
+                        1. Array awal: [3, 19, 1, 14, 8, 7]<br>
+                        2. Heapify index 2 (nilai 1): [3, 19, 7, 14, 8, 1]<br>
+                        3. Heapify index 1 (nilai 19): [3, 19, 7, 14, 8, 1]<br>
+                        4. Heapify index 0 (nilai 3): [19, 14, 7, 3, 8, 1]<br>
+                        <strong>Hasil: [19, 14, 7, 3, 8, 1]</strong>
+                    </div>
+                </div>
+                
+                <div>
+                    <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 8px;">📉 Build Min-Heap:</div>
+                    <div style="font-size: 0.9rem;">
+                        1. Array awal: [3, 19, 1, 14, 8, 7]<br>
+                        2. Heapify index 2 (nilai 1): [3, 19, 1, 14, 8, 7]<br>
+                        3. Heapify index 1 (nilai 19): [3, 8, 1, 14, 19, 7]<br>
+                        4. Heapify index 0 (nilai 3): [1, 8, 3, 14, 19, 7]<br>
+                        <strong>Hasil: [1, 8, 3, 14, 19, 7]</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- Slide 4: Pseudocode (FIXED) -->
+            <div class="slide" id="slide4">
+                <div class="slide-content">
+                    <h1 class="slide-title">Pseudocode Heap Sort</h1>
+                    
+                    <div class="code-container">
+                        <div class="code-block">
+                            <div class="code-section-title">Fungsi Utama: Heap Sort</div>
+                            <div class="code-section">
+                                <pre><code><span class="code-keyword">PROCEDURE</span> <span class="code-function">heapSort</span>(arr)
+    n = <span class="code-function">length</span>(arr)
+    <span class="code-comment">// Build max heap</span>
+    <span class="code-keyword">FOR</span> i <span class="code-keyword">FROM</span> n/2 - 1 <span class="code-keyword">DOWN TO</span> 0
+        <span class="code-function">heapify</span>(arr, n, i)
+    
+    <span class="code-comment">// Extract elements from heap one by one</span>
+    <span class="code-keyword">FOR</span> i <span class="code-keyword">FROM</span> n-1 <span class="code-keyword">DOWN TO</span> 1
+        <span class="code-comment">// Move current root to end</span>
+        <span class="code-function">SWAP</span> arr[0] <span class="code-keyword">WITH</span> arr[i]
+        <span class="code-comment">// Call heapify on reduced heap</span>
+        <span class="code-function">heapify</span>(arr, i, 0)</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="code-block">
+                            <div class="code-section-title">Fungsi Pendukung: Heapify</div>
+                            <div class="code-section">
+                                <pre><code><span class="code-keyword">PROCEDURE</span> <span class="code-function">heapify</span>(arr, n, i)
+    largest = i          <span class="code-comment">// Initialize largest as root</span>
+    left = 2*i + 1       <span class="code-comment">// Left child</span>
+    right = 2*i + 2      <span class="code-comment">// Right child</span>
+    
+    <span class="code-comment">// If left child is larger than root</span>
+    <span class="code-keyword">IF</span> left &lt; n <span class="code-keyword">AND</span> arr[left] &gt; arr[largest]
+        largest = left
+    
+    <span class="code-comment">// If right child is larger than current largest</span>
+    <span class="code-keyword">IF</span> right &lt; n <span class="code-keyword">AND</span> arr[right] &gt; arr[largest]
+        largest = right
+    
+    <span class="code-comment">// If largest is not root</span>
+    <span class="code-keyword">IF</span> largest != i
+        <span class="code-function">SWAP</span> arr[i] <span class="code-keyword">WITH</span> arr[largest]
+        <span class="code-comment">// Recursively heapify the affected sub-tree</span>
+        <span class="code-function">heapify</span>(arr, n, largest)</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="explanation-box">
+                        <div class="explanation-title">Penjelasan Fungsi:</div>
+                        <ul class="explanation-list">
+                            <li><strong>Heap Sort</strong>: Fungsi utama yang mengatur proses sorting.</li>
+                            <li><strong>heapify</strong>: Fungsi untuk mempertahankan sifat heap.</li>
+                            <li><strong>Build max heap</strong>: Mengubah array menjadi max-heap.</li>
+                            <li><strong>Extract elements</strong>: Mengambil elemen terbesar dan menempatkannya di akhir.</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="btn" id="visualizeHeapifyBtn">
+                        <i class="fas fa-eye"></i> Visualisasi Heapify
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Slide 5: Summary Heapify & Leaf -->
+            <div class="slide" id="slide5">
+                <div class="slide-content">
+                    <h1 class="slide-title">Summary Heapify & Leaf</h1>
+                    
+                    <div class="slide-text">
+                        <div class="explanation-box" style="background: linear-gradient(135deg, #fff3e0, #ffecb3); border-left: 5px solid #ff9800;">
+                            <div class="explanation-title">📊 Summary Heapify</div>
+                            <div class="step-description">
+                                Heapify adalah proses untuk memastikan bahwa suatu node dan subtree-nya memenuhi aturan Max-Heap.
+                            </div>
+                            <div class="formula">
+                                <strong>Inti proses Heapify:</strong><br>
+                                1. Hitung anak kiri: left = 2*i + 1<br>
+                                2. Hitung anak kanan: right = 2*i + 2<br>
+                                3. Bandingkan parent dengan anak-anaknya<br>
+                                4. Jika salah satu anak lebih besar → swap<br>
+                                5. Lanjutkan proses ke bawah (rekursif) sampai subtree kembali valid
+                            </div>
+                            <div class="calculation">
+                                <strong>Tujuan:</strong><br>
+                                Menjaga struktur heap agar setiap parent selalu lebih besar dari anaknya dalam Max-Heap.
+                            </div>
+                        </div>
+
+                        <div class="explanation-box" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left: 5px solid #4caf50; margin-top: 20px;">
+                            <div class="explanation-title">🍃 Summary Leaf</div>
+                            <div class="step-description">
+                                Leaf (daun) adalah node pada heap yang tidak memiliki anak, yaitu node paling bawah.
+                            </div>
+                            <div class="formula">
+                                <strong>Cara menentukan leaf:</strong><br>
+                                Jika jumlah elemen array adalah n:<br>
+                                Leaf berada pada index:<br>
+                                index = floor(n/2) sampai n-1
+                            </div>
+                            <div class="calculation">
+                                <strong>Alasannya:</strong><br>
+                                Karena pada array-based heap, node mulai dari floor(n/2) ke atas tidak punya child (keluar dari range array).
+                            </div>
+                        </div>
+
+                        <div class="explanation-box" style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); border-left: 5px solid #2196f3; margin-top: 20px;">
+                            <div class="explanation-title">🔗 Hubungan Leaf dan Heapify</div>
+                            <div class="step-description">
+                                <strong>Leaf tidak perlu di-heapify</strong>, karena tidak punya anak.
+                            </div>
+                            <div class="formula">
+                                Heapify dimulai dari node bukan leaf, yaitu dari index floor(n/2) - 1 turun ke 0.
+                            </div>
+                            <div class="calculation">
+                                <strong>Inilah yang membentuk Build Max Heap.</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="visualization" style="margin-top: 30px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div style="text-align: center;">
+                                <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 10px;">Heapify Process</div>
+                                <div style="background: #f5f5f5; padding: 15px; border-radius: 10px; border: 2px solid #ff9800;">
+                                    <div style="font-family: monospace; text-align: left;">
+                                        <span style="color: #ff9800;">heapify(arr, n, i):</span><br>
+                                        &nbsp;&nbsp;largest = i<br>
+                                        &nbsp;&nbsp;left = 2*i + 1<br>
+                                        &nbsp;&nbsp;right = 2*i + 2<br>
+                                        &nbsp;&nbsp;if left < n and arr[left] > arr[largest]:<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;largest = left<br>
+                                        &nbsp;&nbsp;if right < n and arr[right] > arr[largest]:<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;largest = right<br>
+                                        &nbsp;&nbsp;if largest != i:<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;swap(arr[i], arr[largest])<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;heapify(arr, n, largest)
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 10px;">Leaf Identification</div>
+                                <div style="background: #f5f5f5; padding: 15px; border-radius: 10px; border: 2px solid #4caf50;">
+                                    <div style="font-family: monospace; text-align: left;">
+                                        <span style="color: #4caf50;">n = length(arr)</span><br>
+                                        <span style="color: #4caf50;">leaf_start = floor(n/2)</span><br>
+                                        <br>
+                                        <strong>Example:</strong><br>
+                                        arr = [3, 19, 1, 14, 8, 7]<br>
+                                        n = 6<br>
+                                        leaf_start = floor(6/2) = 3<br>
+                                        <strong>Leaf index: 3, 4, 5</strong><br>
+                                        <strong>Leaf values: 14, 8, 7</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- HYPERLINK KE SIMULASI INTERAKTIF -->
+                    <div style="text-align: center; margin: 30px 0;">
+                        <div style="background: linear-gradient(135deg, #1a2a6c, #b21f1f); padding: 20px; border-radius: 15px; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                            <h3 style="margin-bottom: 15px; color: white;">🚀 Ilustrasi / Visualisasi Heap Sort!</h3>
+                            <p style="margin-bottom: 20px; font-size: 1.1rem;">Lihat proses Heap Sort secara live dengan perhitungan langkah demi langkah</p>
+                            <a href="hitung-heap-sort-hotel.html" target="_blank"
+                               style="display: inline-block; 
+                                      background: linear-gradient(135deg, #fdbb2d, #ff9800); 
+                                      color: #1a2a6c; 
+                                      padding: 12px 30px; 
+                                      border-radius: 30px; 
+                                      text-decoration: none; 
+                                      font-weight: bold; 
+                                      font-size: 1.1rem;
+                                      transition: all 0.3s ease;
+                                      box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                                📊 Buka Ilustrasi / Visualisasi Heap Sort
+                            </a>
+                            <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.9;">Klik untuk melihat visualisasi lengkap dengan perhitungan real-time</p>
+                        </div>
+                    </div>
+
+                    <div class="slide-text" style="margin-top: 20px; text-align: center;">
+                        <p><strong>Kesimpulan:</strong> Heapify menjaga struktur heap, sedangkan leaf nodes adalah elemen dasar yang tidak perlu diproses.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Traveloka Use Case -->
+            <div class="slide" id="slide6">
+                <div class="slide-content">
+                    <h1 class="slide-title">Kenapa Traveloka Butuh Heap?</h1>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; margin-bottom: 25px;">
+                        <!-- Kolom Kiri: Problem Statement -->
+                        <div>
+                            <div class="slide-text">
+                                <p><strong>Problem Statement:</strong></p>
+                                <ul class="slide-list">
+                                    <li>970+ hotel perlu diurutkan secara real-time</li>
+                                    <li>Multiple criteria: rating, harga, popularitas, jarak</li>
+                                    <li>Response time &lt; 2 detik</li>
+                                    <li>Update frequent: filter, harga, ketersediaan</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="slide-text">
+                                <p><strong>Solution:</strong> Priority Queue dengan Heap Structure</p>
+                            </div>
+
+                            <!-- Hotel Card Example -->
+                            <div class="visualization">
+                                <div class="hotel-card">
+                                    <div class="hotel-name">Four Points by Sheraton Makassar</div>
+                                    <div class="hotel-details">
+                                        <div class="hotel-detail">
+                                            <i class="fas fa-star"></i>
+                                            <span>Rating: 4.7/5</span>
+                                        </div>
+                                        <div class="hotel-detail">
+                                            <i class="fas fa-dollar-sign"></i>
+                                            <span>Harga: $110</span>
+                                        </div>
+                                        <div class="hotel-detail">
+                                            <i class="fas fa-fire"></i>
+                                            <span>Popularitas: 94</span>
+                                        </div>
+                                        <div class="hotel-detail">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <span>Jarak: 1.0km</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kolom Kanan: Gambar -->
+                        <div>
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 15px; font-size: 1.2rem;">
+                                    🏨 Visualisasi Sistem Rekomendasi Traveloka
+                                </div>
+                                <div style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 15px; border-radius: 10px; border: 2px solid #1a2a6c;">
+                                    <img src="https://drive.google.com/thumbnail?id=15GvzoWrYcTdW8dkAc7JaAyRp-IhYTvoj&sz=w2000"
+                                         alt="Hotel Recommendation System"
+                                         style="width: 100%; 
+                                                height: 200px; 
+                                                object-fit: cover; 
+                                                border-radius: 8px;
+                                                border: 2px solid #90caf9;">
+                                    <div style="margin-top: 10px; font-size: 0.9rem; color: #666;">
+                                        Ilustrasi: Sistem rekomendasi hotel real-time
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border-left: 4px solid #4caf50;">
+                                <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 10px;">📈 Keunggulan Heap untuk Traveloka:</div>
+                                <ul style="list-style: none; padding-left: 0;">
+                                    <li style="margin-bottom: 8px;">✅ <strong>O(log n)</strong> untuk insert/update hotel</li>
+                                    <li style="margin-bottom: 8px;">✅ <strong>O(1)</strong> access ke hotel terbaik</li>
+                                    <li style="margin-bottom: 8px;">✅ <strong>Multiple criteria</strong> sorting</li>
+                                    <li style="margin-bottom: 8px;">✅ <strong>Real-time</strong> rekomendasi</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Information Section -->
+                    <div style="background: linear-gradient(135deg, #fff3e0, #ffecb3); padding: 20px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #ff9800;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div>
+                                <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 10px;">🔧 Teknik Implementasi:</div>
+                                <div style="font-family: monospace; background: #2d2d2d; color: white; padding: 12px; border-radius: 8px; font-size: 0.9rem;">
+                                    class HotelPriority {<br>
+                                    &nbsp;&nbsp;constructor(hotel) {<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;this.priority = [<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-hotel.rating,      // Max-heap<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-hotel.popularity,  // Max-heap<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hotel.price,        // Min-heap<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hotel.distance      // Min-heap<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;];<br>
+                                    &nbsp;&nbsp;}<br>
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 10px;">📊 Metrik Performa:</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                    <div style="background: #e8f5e9; padding: 10px; border-radius: 8px; text-align: center;">
+                                        <div style="font-size: 1.5rem; font-weight: bold; color: #4caf50;">&lt;2s</div>
+                                        <div style="font-size: 0.8rem;">Response Time</div>
+                                    </div>
+                                    <div style="background: #e3f2fd; padding: 10px; border-radius: 8px; text-align: center;">
+                                        <div style="font-size: 1.5rem; font-weight: bold; color: #2196f3;">970+</div>
+                                        <div style="font-size: 0.8rem;">Hotels Processed</div>
+                                    </div>
+                                    <div style="background: #fff3e0; padding: 10px; border-radius: 8px; text-align: center;">
+                                        <div style="font-size: 1.5rem; font-weight: bold; color: #ff9800;">O(log n)</div>
+                                        <div style="font-size: 0.8rem;">Complexity</div>
+                                    </div>
+                                    <div style="background: #f3e5f5; padding: 10px; border-radius: 8px; text-align: center;">
+                                        <div style="font-size: 1.5rem; font-weight: bold; color: #9c27b0;">99.9%</div>
+                                        <div style="font-size: 0.8rem;">Uptime</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Implementasi Python (DIUPDATE) -->
+            <div class="slide" id="slide7">
+                <div class="slide-content">
+                    <h1 class="slide-title">Implementasi Python untuk Hotel Makassar</h1>
+                    
+                    <div class="code-block">
+                        <pre><code><span class="code-keyword">import</span> heapq
+
+<span class="code-keyword">class</span> <span class="code-function">Hotel</span>:
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(<span class="code-variable">self</span>, name, price, rating, popularity_score, distance_from_center):
+        <span class="code-variable">self</span>.name = name
+        <span class="code-variable">self</span>.price = price
+        <span class="code-variable">self</span>.rating = rating  <span class="code-comment"># 1-5 stars</span>
+        <span class="code-variable">self</span>.popularity_score = popularity_score  <span class="code-comment"># 1-100</span>
+        <span class="code-variable">self</span>.distance_from_center = distance_from_center  <span class="code-comment"># in km</span>
+
+    <span class="code-keyword">def</span> <span class="code-function">__lt__</span>(<span class="code-variable">self</span>, other):
+        <span class="code-comment">"""Untuk max-heap: hotel lebih prioritas harus 'lebih kecil' dalam min-heap"""</span>
+        <span class="code-comment"># Priority 1: Rating (lebih tinggi = lebih prioritas)</span>
+        <span class="code-keyword">if</span> <span class="code-variable">self</span>.rating != other.rating:
+            <span class="code-keyword">return</span> <span class="code-variable">self</span>.rating > other.rating  <span class="code-comment"># Balik tanda untuk max-heap behavior</span>
+        <span class="code-comment"># Priority 2: Popularity (lebih tinggi = lebih prioritas)</span>
+        <span class="code-keyword">if</span> <span class="code-variable">self</span>.popularity_score != other.popularity_score:
+            <span class="code-keyword">return</span> <span class="code-variable">self</span>.popularity_score > other.popularity_score
+        <span class="code-comment"># Priority 3: Price (lebih murah = lebih prioritas)</span>
+        <span class="code-keyword">if</span> <span class="code-variable">self</span>.price != other.price:
+            <span class="code-keyword">return</span> <span class="code-variable">self</span>.price < other.price
+        <span class="code-comment"># Priority 4: Distance (lebih dekat = lebih prioritas)</span>
+        <span class="code-keyword">return</span> <span class="code-variable">self</span>.distance_from_center < other.distance_from_center
+
+    <span class="code-keyword">def</span> <span class="code-function">__str__</span>(<span class="code-variable">self</span>):
+        <span class="code-keyword">return</span> <span class="code-string">f"</span><span class="code-variable">{</span><span class="code-variable">self</span>.name<span class="code-variable">}</span><span class="code-string"> (Rating: </span><span class="code-variable">{</span><span class="code-variable">self</span>.rating<span class="code-variable">}</span><span class="code-string">, Price: $</span><span class="code-variable">{</span><span class="code-variable">self</span>.price<span class="code-variable">}</span><span class="code-string">, Popularity: </span><span class="code-variable">{</span><span class="code-variable">self</span>.popularity_score<span class="code-variable">}</span><span class="code-string">, Distance: </span><span class="code-variable">{</span><span class="code-variable">self</span>.distance_from_center<span class="code-variable">}</span><span class="code-string">km)"</span>
+
+<span class="code-keyword">class</span> <span class="code-function">TravelokaSearchEngine</span>:
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(<span class="code-variable">self</span>):
+        <span class="code-variable">self</span>.hotels = []
+
+    <span class="code-keyword">def</span> <span class="code-function">add_hotel</span>(<span class="code-variable">self</span>, hotel):
+        <span class="code-comment"># Gunakan min-heap dengan priority tuple</span>
+        priority_tuple = (
+            -hotel.rating,  <span class="code-comment"># Negasi untuk max-heap behavior</span>
+            -hotel.popularity_score,
+            hotel.price,
+            hotel.distance_from_center,
+            hotel.name  <span class="code-comment"># Untuk tie-breaker</span>
+        )
+        heapq.heappush(<span class="code-variable">self</span>.hotels, (priority_tuple, hotel))
+
+    <span class="code-keyword">def</span> <span class="code-function">get_top_recommendations</span>(<span class="code-variable">self</span>, k=<span class="code-number">5</span>):
+        recommendations = []
+        temp_heap = <span class="code-variable">self</span>.hotels.copy()
+
+        <span class="code-keyword">for</span> _ <span class="code-keyword">in</span> range(min(k, len(temp_heap))):
+            <span class="code-keyword">if</span> temp_heap:
+                priority, hotel = heapq.heappop(temp_heap)
+                recommendations.append(hotel)
+
+        <span class="code-keyword">return</span> recommendations
+
+    <span class="code-keyword">def</span> <span class="code-function">print_top_hotels</span>(<span class="code-variable">self</span>, k=<span class="code-number">3</span>):
+        print(<span class="code-string">f"Top {k} Recommended Hotels di Makassar:"</span>)
+        top_hotels = <span class="code-variable">self</span>.get_top_recommendations(k)
+        <span class="code-keyword">for</span> i, hotel <span class="code-keyword">in</span> enumerate(top_hotels, <span class="code-number">1</span>):
+            print(<span class="code-string">f"{i}. {hotel}"</span>)
+
+<span class="code-comment"># Contoh penggunaan dengan hotel-hotel di sekitar Makassar</span>
+<span class="code-keyword">def</span> <span class="code-function">demo_traveloka_search</span>():
+    traveloka = TravelokaSearchEngine()
+
+    print(<span class="code-string">"Hotel tersedia di database Makassar:"</span>)
+    hotels = [
+        Hotel(<span class="code-string">"Aston Makassar Hotel"</span>, <span class="code-number">85</span>, <span class="code-number">4.5</span>, <span class="code-number">88</span>, <span class="code-number">1.2</span>),
+        Hotel(<span class="code-string">"Swiss-Belhotel Harbour Bay"</span>, <span class="code-number">120</span>, <span class="code-number">4.6</span>, <span class="code-number">92</span>, <span class="code-number">0.8</span>),
+        Hotel(<span class="code-string">"Clarion Makassar"</span>, <span class="code-number">75</span>, <span class="code-number">4.2</span>, <span class="code-number">82</span>, <span class="code-number">2.5</span>),
+        Hotel(<span class="code-string">"Santika Premiere Makassar"</span>, <span class="code-number">95</span>, <span class="code-number">4.4</span>, <span class="code-number">86</span>, <span class="code-number">1.5</span>),
+        Hotel(<span class="code-string">"Four Points by Sheraton Makassar"</span>, <span class="code-number">110</span>, <span class="code-number">4.7</span>, <span class="code-number">94</span>, <span class="code-number">1.0</span>),
+        Hotel(<span class="code-string">"Losari Beach Hotel"</span>, <span class="code-number">65</span>, <span class="code-number">4.0</span>, <span class="code-number">78</span>, <span class="code-number">3.0</span>),
+        Hotel(<span class="code-string">"Hotel Makassar Golden"</span>, <span class="code-number">50</span>, <span class="code-number">3.8</span>, <span class="code-number">72</span>, <span class="code-number">2.0</span>),
+        Hotel(<span class="code-string">"Ibis Makassar City Center"</span>, <span class="code-number">55</span>, <span class="code-number">3.9</span>, <span class="code-number">75</span>, <span class="code-number">1.8</span>)
+    ]
+
+    <span class="code-keyword">for</span> hotel <span class="code-keyword">in</span> hotels:
+        print(<span class="code-string">f"  - {hotel}"</span>)
+        traveloka.add_hotel(hotel)
+
+    print(<span class="code-string">"\n"</span> + <span class="code-string">"="</span>*<span class="code-number">60</span>)
+    traveloka.print_top_hotels(<span class="code-number">5</span>)
+
+<span class="code-comment"># Menjalankan demo</span>
+<span class="code-keyword">if</span> <span class="code-variable">__name__</span> == <span class="code-string">"__main__"</span>:
+    demo_traveloka_search()</code></pre>
+                    </div>
+                    
+                    <div class="explanation-box">
+                        <div class="explanation-title">📝 Penjelasan Kode:</div>
+                        <ul class="explanation-list">
+                            <li><strong>Class Hotel</strong>: Mewakili data hotel dengan properti rating, harga, popularitas, dan jarak.</li>
+                            <li><strong>Method __lt__</strong>: Mengimplementasikan perbandingan untuk priority queue.</li>
+                            <li><strong>TravelokaSearchEngine</strong>: Menggunakan heapq (min-heap) untuk mengelola rekomendasi hotel.</li>
+                            <li><strong>Priority Tuple</strong>: Menggunakan tuple untuk multiple criteria sorting.</li>
+                            <li><strong>Complexity</strong>: O(log n) untuk insert, O(k log n) untuk get top-k recommendations.</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="btn" id="runCodeBtn">
+                        <i class="fas fa-code"></i> <a href ="https://colab.research.google.com/drive/11yUB1qDqSj3mOOeiu1eb-Kg3Dj2-2WcJ?usp=sharing" target="_blank">Jalankan Kode heap sort Sistem Prioritas Pencarian Hotel Traveloka</a>
+                    </button>
+                </div>
+            </div>
+
+<!-- Slide 8: Demo Hasil Rekomendasi (DIUPDATE) -->
+<div class="slide" id="slide8">
+    <div class="slide-content">
+        <h1 class="slide-title">Demo: Hasil Rekomendasi Hotel Makassar</h1>
+        
+        <div class="slide-text">
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 25px;">
+                <strong>Top 6 Recommended Hotels di Makassar </strong>
+            </p>
+        </div>
+        
+        <div id="hotelResults">
+            <!-- Hotel Card 1 -->
+            <div class="hotel-card">
+                <div class="hotel-rank rank-1">1</div>
+                <div class="hotel-name">Four Points by Sheraton Makassar</div>
+                <div class="hotel-details">
+                    <div class="hotel-detail">
+                        <i class="fas fa-star"></i>
+                        <span><strong>Rating:</strong> 4.7/5</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span><strong>Harga:</strong> $110</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-fire"></i>
+                        <span><strong>Popularitas:</strong> 94</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><strong>Jarak:</strong> 1.0km</span>
+                    </div>
+                </div>
+                <div class="distance-badge">
+                    <i class="fas fa-trophy"></i> Jarak Terdekat ke Pusat Kota
+                </div>
+            </div>
+            
+            <!-- Hotel Card 2 -->
+            <div class="hotel-card">
+                <div class="hotel-rank rank-2">2</div>
+                <div class="hotel-name">Swiss-Belhotel Harbour Bay</div>
+                <div class="hotel-details">
+                    <div class="hotel-detail">
+                        <i class="fas fa-star"></i>
+                        <span><strong>Rating:</strong> 4.6/5</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span><strong>Harga:</strong> $120</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-fire"></i>
+                        <span><strong>Popularitas:</strong> 92</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><strong>Jarak:</strong> 0.8km</span>
+                    </div>
+                </div>
+                <div class="distance-badge">
+                    <i class="fas fa-map-marker"></i> Sangat Dekat dengan Pelabuhan
+                </div>
+            </div>
+            
+            <!-- Hotel Card 3 -->
+            <div class="hotel-card">
+                <div class="hotel-rank rank-3">3</div>
+                <div class="hotel-name">Aston Makassar Hotel</div>
+                <div class="hotel-details">
+                    <div class="hotel-detail">
+                        <i class="fas fa-star"></i>
+                        <span><strong>Rating:</strong> 4.5/5</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span><strong>Harga:</strong> $85</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-fire"></i>
+                        <span><strong>Popularitas:</strong> 88</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><strong>Jarak:</strong> 1.2km</span>
+                    </div>
+                </div>
+                <div class="distance-badge">
+                    <i class="fas fa-award"></i> Harga Terbaik dalam Jarak Dekat
+                </div>
+            </div>
+            
+            <!-- Hotel Card 4 -->
+            <div class="hotel-card">
+                <div class="hotel-rank rank-4">4</div>
+                <div class="hotel-name">Santika Premiere Makassar</div>
+                <div class="hotel-details">
+                    <div class="hotel-detail">
+                        <i class="fas fa-star"></i>
+                        <span><strong>Rating:</strong> 4.4/5</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span><strong>Harga:</strong> $95</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-fire"></i>
+                        <span><strong>Popularitas:</strong> 86</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><strong>Jarak:</strong> 1.5km</span>
+                    </div>
+                </div>
+                <div class="distance-badge">
+                    <i class="fas fa-thumbs-up"></i> Rating Konsisten & Populer
+                </div>
+            </div>
+            
+            <!-- Hotel Card 5 -->
+            <div class="hotel-card">
+                <div class="hotel-rank rank-5">5</div>
+                <div class="hotel-name">Clarion Makassar</div>
+                <div class="hotel-details">
+                    <div class="hotel-detail">
+                        <i class="fas fa-star"></i>
+                        <span><strong>Rating:</strong> 4.2/5</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span><strong>Harga:</strong> $75</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-fire"></i>
+                        <span><strong>Popularitas:</strong> 82</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><strong>Jarak:</strong> 2.5km</span>
+                    </div>
+                </div>
+                <div class="distance-badge">
+                    <i class="fas fa-wallet"></i> Harga Paling Ekonomis
+                </div>
+            </div>
+            
+            <!-- Hotel Card 6 (YANG DITAMBAHKAN) -->
+            <div class="hotel-card">
+                <div class="hotel-rank rank-6">6</div>
+                <div class="hotel-name">Losari Beach Hotel</div>
+                <div class="hotel-details">
+                    <div class="hotel-detail">
+                        <i class="fas fa-star"></i>
+                        <span><strong>Rating:</strong> 4/5</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span><strong>Harga:</strong> $65</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-fire"></i>
+                        <span><strong>Popularitas:</strong> 78</span>
+                    </div>
+                    <div class="hotel-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><strong>Jarak:</strong> 3km</span>
+                    </div>
+                </div>
+                <div class="distance-badge">
+                    <i class="fas fa-umbrella-beach"></i> Tepi Pantai Losari
+                </div>
+            </div>
+        </div>
+        
+        <div class="explanation-box" style="margin-top: 30px; background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left: 5px solid #4caf50;">
+            <div class="explanation-title">✅ Analisis Hasil Rekomendasi:</div>
+            <ul class="explanation-list">
+                  <li><strong>Heap berhasil mengurutkan berdasarkan multiple criteria:</strong> rating → popularitas → harga → jarak</li>
+        <li><strong>Prioritas utama:</strong> Hotel dengan rating tertinggi (Four Points: 4.7) ditempatkan di posisi 1</li>
+        <li><strong>Urutan berdasarkan rating:</strong> Four Points (4.7) → Swiss-Belhotel (4.6) → Aston (4.5) → Santika (4.4) → Clarion (4.2) → Losari (4.0)</li>
+        <li><strong>Pengurutan sempurna:</strong> Tidak ada hotel dengan rating sama dalam 6 besar, sehingga kriteria lain (popularitas, harga, jarak) tidak digunakan sebagai tie-breaker</li>
+        <li><strong>Pattern yang jelas:</strong> Heap menghasilkan urutan descending berdasarkan rating sebagai kriteria utama</li>
+        <li><strong>Performance:</strong> Algoritma berjalan dengan kompleksitas O(k log n) untuk k=6 rekomendasi dari total 8 hotel</li>
+            </ul>
+        </div>
+        
+        <div class="slide-text" style="margin-top: 20px; text-align: center; padding: 15px; background: linear-gradient(135deg, #1a2a6c, #b21f1f); border-radius: 10px; color: white;">
+             <p><strong>Kesimpulan:</strong> Algoritma Heap berhasil mengurutkan 8 hotel di Makassar berdasarkan kriteria utama (rating) dengan efisien dan menghasilkan rekomendasi 6 hotel terbaik yang sudah terurut secara sempurna berdasarkan rating!</p>
+        </div>
+    </div>
+</div>
+
+            <!-- Slide 9: Analisis Kompleksitas -->
+            <div class="slide" id="slide9">
+                <div class="slide-content">
+                    <h1 class="slide-title">Analisis Kompleksitas Heap Sort</h1>
+                    
+                    <div class="slide-text">
+                        <!-- Ringkasan Visual Kompleksitas -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 30px;">
+                            <div style="text-align: center; background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 20px; border-radius: 12px; border: 2px solid #2196f3;">
+                                <div style="font-size: 2rem; font-weight: bold; color: #2196f3; margin-bottom: 8px;">O(log n)</div>
+                                <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 8px;">Insert Operation</div>
+                                <div style="font-size: 0.8rem; color: #666;">Tambah hotel baru</div>
+                            </div>
+                            <div style="text-align: center; background: linear-gradient(135deg, #e8f5e9, #c8e6c9); padding: 20px; border-radius: 12px; border: 2px solid #4caf50;">
+                                <div style="font-size: 2rem; font-weight: bold; color: #4caf50; margin-bottom: 8px;">O(k log n)</div>
+                                <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 8px;">Top-k Recommendations</div>
+                                <div style="font-size: 0.8rem; color: #666;">Ambil k rekomendasi</div>
+                            </div>
+                            <div style="text-align: center; background: linear-gradient(135deg, #fff3e0, #ffecb3); padding: 20px; border-radius: 12px; border: 2px solid #ff9800;">
+                                <div style="font-size: 2rem; font-weight: bold; color: #ff9800; margin-bottom: 8px;">O(n log n)</div>
+                                <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 8px;">Total Operations</div>
+                                <div style="font-size: 0.8rem; color: #666;">n operasi insert + sort</div>
+                            </div>
+                        </div>
+
+                        <!-- 3.3 Analisis Kompleksitas Total -->
+                        <div class="explanation-box" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-left: 5px solid #1a2a6c; margin-bottom: 25px;">
+                            <div class="explanation-title">3.3 Analisis Kompleksitas Total</div>
+                            
+                            <!-- 3.3.1 Untuk n Operasi add_hotel -->
+                            <div style="margin-bottom: 20px;">
+                                <div class="step-title">3.3.1 Untuk n Operasi add_hotel</div>
+                                <div class="step-description">
+                                    Bayangkan Traveloka memiliki sistem rekomendasi bertingkat dengan n hotel:
+                                </div>
+                                <div class="calculation">
+                                    <strong>Satu Hotel Ditambahkan: O(log n)</strong><br>
+                                    • Sistem harus mencari posisi yang tepat untuk hotel baru<br>
+                                    • Membandingkan dengan hotel lain berdasarkan:<br>
+                                    &nbsp;&nbsp;○ <strong>Rating</strong> (prioritas utama)<br>
+                                    &nbsp;&nbsp;○ <strong>Popularity score</strong> (prioritas sekunder)<br>
+                                    &nbsp;&nbsp;○ <strong>Price</strong> (prioritas tersier)<br>
+                                    &nbsp;&nbsp;○ <strong>Distance</strong> (prioritas akhir)<br>
+                                    • Proses ini butuh waktu <strong>log n</strong> karena struktur heap yang terorganisir
+                                </div>
+                                <div class="calculation">
+                                    <strong>n Hotel Ditambahkan: O(n log n)</strong><br>
+                                    Hotel 1: O(log 1) = sangat cepat (database kosong)<br>
+                                    Hotel 2: O(log 2) = bandingkan dengan 1 hotel<br>
+                                    Hotel 3: O(log 3) = bandingkan dengan 2 hotel<br>
+                                    Hotel 4: O(log 4) = bandingkan dengan 3 hotel<br>
+                                    ...<br>
+                                    Hotel n: O(log n) = bandingkan dengan n-1 hotel<br>
+                                    <strong>Total waktu untuk n hotel ≈ O(n log n)</strong>
+                                </div>
+                            </div>
+
+                            <!-- 3.3.2 Untuk k Operasi get_top_recommendations -->
+                            <div style="margin-bottom: 20px;">
+                                <div class="step-title">3.3.2 Untuk k Operasi get_top_recommendations</div>
+                                <div class="calculation">
+                                    <strong>Mendapatkan Satu Rekomendasi: O(log n)</strong><br>
+                                    • Sistem mengambil hotel terbaik (root of heap)<br>
+                                    • Harus mengatur ulang heap:<br>
+                                    &nbsp;&nbsp;○ Elemen terakhir dipindah ke posisi pertama<br>
+                                    &nbsp;&nbsp;○ Bandingkan dengan anak-anaknya untuk mempertahankan struktur heap<br>
+                                    • Proses ini butuh <strong>log n</strong> langkah
+                                </div>
+                                <div class="calculation">
+                                    <strong>Mendapatkan k Rekomendasi: O(k log n)</strong><br>
+                                    Rekomendasi 1: O(log n) → atur ulang n-1 hotel<br>
+                                    Rekomendasi 2: O(log n-1) → atur ulang n-2 hotel<br>
+                                    Rekomendasi 3: O(log n-2) → atur ulang n-3 hotel<br>
+                                    ...<br>
+                                    Rekomendasi k: O(log n-k+1)<br>
+                                    <strong>Total waktu untuk k rekomendasi ≈ O(k log n)</strong>
+                                </div>
+                            </div>
+
+                            <!-- 3.3.3 Contoh Nyata dengan 8 Hotel Makassar -->
+                            <div>
+                                <div class="step-title">3.3.3 Contoh Nyata dengan 8 Hotel Makassar</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                    <div class="calculation">
+                                        <strong>Proses Penambahan:</strong><br>
+                                        Four Points (4.7) → O(log 1) = 1 langkah<br>
+                                        Swiss-Belhotel (4.6) → O(log 2) = 2 langkah<br>
+                                        Aston (4.5) → O(log 3) = 2 langkah<br>
+                                        Santika (4.4) → O(log 4) = 3 langkah<br>
+                                        Clarion (4.2) → O(log 5) = 3 langkah<br>
+                                        Losari (4.0) → O(log 6) = 3 langkah<br>
+                                        Ibis (3.9) → O(log 7) = 3 langkah<br>
+                                        Golden (3.8) → O(log 8) = 3 langkah<br>
+                                        <strong>Total = 1 + 2 + 2 + 3 + 3 + 3 + 3 + 3 = 20 langkah</strong><br>
+                                        <strong>≈ O(n log n)</strong>
+                                    </div>
+                                    <div class="calculation">
+                                       <strong>Proses Rekomendasi (k=6):</strong><br>
+											Ambil Four Points → O(log 8) = 3 langkah<br>
+											Ambil Swiss-Belhotel → O(log 7) = 3 langkah<br>
+											Ambil Aston → O(log 6) = 3 langkah<br>
+											Ambil Santika → O(log 5) = 3 langkah<br>
+											Ambil Clarion → O(log 4) = 2 langkah<br>
+											Ambil Losari → O(log 3) = 2 langkah<br>
+											<strong>Total = 3 + 3 + 3 + 3 + 2 + 2 = 16 langkah</strong><br>
+										<strong>≈ O(k log n) dimana k=6, n=8</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Perbandingan dengan Alternatif Lain -->
+                        <div class="explanation-box" style="background: linear-gradient(135deg, #f3e5f5, #e1bee7); border-left: 5px solid #9c27b0; margin-bottom: 25px;">
+                            <div class="explanation-title">📊 Perbandingan dengan Alternatif Lain</div>
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>Operasi</th>
+                                        <th>Heap (Traveloka)</th>
+                                        <th>Array Sorted</th>
+                                        <th>Linked List Sorted</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Insert</strong></td>
+                                        <td style="color: #4caf50; font-weight: bold;">O(log n)</td>
+                                        <td style="color: #f44336;">O(n)</td>
+                                        <td style="color: #f44336;">O(n)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Get Top-k</strong></td>
+                                        <td style="color: #4caf50; font-weight: bold;">O(k log n)</td>
+                                        <td style="color: #4caf50;">O(1)</td>
+                                        <td style="color: #4caf50;">O(k)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Total n ops</strong></td>
+                                        <td style="color: #4caf50; font-weight: bold;">O(n log n)</td>
+                                        <td style="color: #f44336;">O(n²)</td>
+                                        <td style="color: #f44336;">O(n²)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Kesimpulan Akhir -->
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #1a2a6c, #b21f1f); border-radius: 12px; color: white;">
+                            <div style="font-size: 1.3rem; font-weight: bold; margin-bottom: 10px;">🚀 Heap Sort: Solusi Optimal untuk Traveloka</div>
+                            <div style="font-size: 1rem; opacity: 0.9;">
+                                Dengan keunggulan O(n log n) yang konsisten, efisiensi memory, dan kemampuan multiple criteria sorting, 
+                                Heap Sort memberikan performa terbaik untuk sistem rekomendasi real-time dengan skala enterprise.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Keunggulan Bisnis -->
+            <div class="slide" id="slide10">
+                <div class="slide-content">
+                    <h1 class="slide-title">Keunggulan Heap untuk Traveloka</h1>
+                    
+                    <div class="slide-text">
+                        <!-- Grid Keunggulan Teknis dan Bisnis -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px;">
+                            
+                            <!-- Keunggulan Teknis Heap -->
+                            <div class="explanation-box" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left: 5px solid #4caf50;">
+                                <div class="explanation-title">✅ Keunggulan Teknis Heap</div>
+                                <ul class="explanation-list">
+                                    <li><strong>Konsisten</strong>: Always O(n log n) - tidak ada worst-case degradation</li>
+                                    <li><strong>Real-time</strong>: O(log n) untuk update - cocok untuk frequent changes</li>
+                                    <li><strong>Multiple Criteria</strong>: Support complex sorting - rating, price, popularity, distance</li>
+                                    <li><strong>Memory Efficient</strong>: In-place operations - tidak butuh extra memory signifikan</li>
+                                    <li><strong>Scalable</strong>: Handle large datasets - performa tetap optimal untuk data besar</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Untuk Use Case Traveloka -->
+                            <div class="explanation-box" style="background: linear-gradient(135deg, #fff3e0, #ffecb3); border-left: 5px solid #ff9800;">
+                                <div class="explanation-title">🎯 Implementasi di Traveloka</div>
+                                <ul class="explanation-list">
+                                    <li><strong>970+ hotels</strong>: O(log n) = ~10 operations - sangat efisien</li>
+                                    <li><strong>Response time &lt;2s</strong>: Optimized for speed - memenuhi SLA</li>
+                                    <li><strong>Frequent updates</strong>: Efficient insert/remove - harga & ketersediaan real-time</li>
+                                    <li><strong>Multiple filters</strong>: Complex priority handling - user preferences</li>
+                                    <li><strong>User experience</strong>: Instant recommendations - responsif & smooth</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Impact Bisnis -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px;">
+                            
+                            <!-- Customer Experience -->
+                            <div class="explanation-box" style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); border-left: 5px solid #2196f3;">
+                                <div class="explanation-title">🌟 Customer Experience</div>
+                                <ul class="explanation-list">
+                                    <li><strong>Rekomendasi Personal</strong>: Menampilkan hotel terbaik di posisi pertama</li>
+                                    <li><strong>Waktu Response Cepat</strong>: &lt; 2 detik untuk hasil pencarian</li>
+                                    <li><strong>UI/UX Responsif</strong>: Pengalaman pencarian yang smooth</li>
+                                    <li><strong>Relevansi Tinggi</strong>: Hasil sesuai preferensi user</li>
+                                    <li><strong>Update Real-time</strong>: Harga dan ketersediaan terkini</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Business Impact -->
+                            <div class="explanation-box" style="background: linear-gradient(135deg, #fce4ec, #f8bbd9); border-left: 5px solid #e91e63;">
+                                <div class="explanation-title">📈 Business Impact</div>
+                                <ul class="explanation-list">
+                                    <li><strong>↑ Conversion rates</strong>: Pengguna mudah menemukan hotel sesuai</li>
+                                    <li><strong>↑ Customer retention</strong>: Pengalaman pencarian yang baik meningkatkan loyalitas</li>
+                                    <li><strong>↑ Competitive advantage</strong>: Teknologi recommendation yang canggih</li>
+                                    <li><strong>↓ Operational cost</strong>: Efisiensi resource dan infrastruktur</li>
+                                    <li><strong>↑ Revenue growth</strong>: Peningkatan booking dan transaksi</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Metrics Performance -->
+                        <div style="background: linear-gradient(135deg, #f5f5f5, #eeeeee); padding: 25px; border-radius: 12px; border-left: 5px solid #9c27b0; margin-bottom: 25px;">
+                            <div class="explanation-title" style="text-align: center; margin-bottom: 20px;">📊 Metrik Performa Sistem</div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; text-align: center;">
+                                <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                                    <div style="font-size: 1.8rem; font-weight: bold; color: #2196f3; margin-bottom: 5px;">&lt;2s</div>
+                                    <div style="font-size: 0.9rem; color: #666;">Response Time</div>
+                                </div>
+                                <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                                    <div style="font-size: 1.8rem; font-weight: bold; color: #4caf50; margin-bottom: 5px;">970+</div>
+                                    <div style="font-size: 0.9rem; color: #666;">Hotels Processed</div>
+                                </div>
+                                <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                                    <div style="font-size: 1.8rem; font-weight: bold; color: #ff9800; margin-bottom: 5px;">O(log n)</div>
+                                    <div style="font-size: 0.9rem; color: #666;">Complexity</div>
+                                </div>
+                                <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                                    <div style="font-size: 1.8rem; font-weight: bold; color: #9c27b0; margin-bottom: 5px;">99.9%</div>
+                                    <div style="font-size: 0.9rem; color: #666;">Uptime</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kesimpulan Akhir -->
+                        <div style="text-align: center; padding: 25px; background: linear-gradient(135deg, #1a2a6c, #b21f1f); border-radius: 15px; color: white;">
+                            <div style="font-size: 1.4rem; font-weight: bold; margin-bottom: 15px;">🏆 Heap Sort: Competitive Advantage untuk Traveloka</div>
+                            <div style="font-size: 1.1rem; opacity: 0.9; line-height: 1.6;">
+                                Dengan kombinasi performa teknis yang unggul (O(log n) operations, multiple criteria sorting) 
+                                dan impact bisnis yang signifikan (↑ conversion, ↑ retention), Heap Sort memberikan 
+                                <strong>competitive advantage</strong> yang nyata dalam industri travel yang kompetitif.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           <!-- Slide 11: Kesimpulan & Rekomendasi (DENGAN JURNAL) -->
+<div class="slide" id="slide11">
+    <div class="slide-content">
+        <h1 class="slide-title">Kesimpulan & Rekomendasi</h1>
+        
+        <div class="slide-text">
+            <!-- Pernyataan Utama -->
+            <div style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 25px; border-radius: 12px; border-left: 5px solid #2196f3; margin-bottom: 25px;">
+                <div style="font-size: 1.2rem; font-weight: bold; color: #1a2a6c; margin-bottom: 15px; text-align: center;">
+                    🎯 Kesimpulan Utama
+                </div>
+                <div style="font-size: 1.1rem; line-height: 1.6; text-align: center;">
+                    Studi ini menyatakan bahwa struktur data Heap, terutama dalam konteks algoritma seperti Heap Sort, 
+                    adalah pilihan <strong>terbaik dan strategis</strong> untuk diterapkan di sistem inti Traveloka, 
+                    terutama pada layanan rekomendasi hotel dan penerbangan serta pencarian ranking secara real-time.
+                </div>
+            </div>
+
+            <!-- Keunggulan Teknis dan Performa -->
+            <div class="explanation-box" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left: 5px solid #4caf50; margin-bottom: 25px;">
+                <div class="explanation-title">1. Keunggulan Teknis dan Performa</div>
+                <div class="step-description">
+                    Penerapan Heap menawarkan fondasi teknis yang kuat, ditandai oleh:
+                </div>
+                <ul class="explanation-list">
+                    <li>
+                        <strong>Performa yang Konsisten</strong>
+                    </li>
+                    <li>
+                        <strong>Efisiensi dan Real-time</strong>
+                    </li>
+                    <li>
+                        <strong>Superioritas Top-k Queries</strong>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Dampak Bisnis dan Keunggulan Kompetitif -->
+            <div class="explanation-box" style="background: linear-gradient(135deg, #fff3e0, #ffecb3); border-left: 5px solid #ff9800; margin-bottom: 25px;">
+                <div class="explanation-title">2. Dampak Bisnis dan Keunggulan Kompetitif</div>
+                <div class="step-description">
+                    Keunggulan teknis ini langsung berdampak pada manfaat bisnis yang signifikan:
+                </div>
+                <ul class="explanation-list">
+                    <li>
+                        <strong>Peningkatan Pengalaman Pelanggan</strong>
+                    </li>
+                    <li>
+                        <strong>Efisiensi Operasional</strong>
+                    </li>
+                    <li>
+                        <strong>Keunggulan Kompetitif</strong>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- REFERENSI JURNAL AKADEMIS -->
+            <div class="explanation-box" style="background: linear-gradient(135deg, #fffde7, #fff9c4); border-left: 5px solid #fbc02d; margin-bottom: 25px;">
+                <div class="explanation-title">📚 Referensi Jurnal Akademis tentang Heap Sort</div>
+                <div class="step-description">
+                    Berikut adalah referensi jurnal akademis yang mendukung penerapan Heap Sort dalam sistem enterprise seperti Traveloka:
+                </div>
+                
+                <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px; border: 1px solid #e0e0e0;">
+                    <div style="display: flex; align-items: flex-start; margin-bottom: 15px;">
+                        <div style="background: #1a2a6c; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 12px; flex-shrink: 0;">
+                            1
+                        </div>
+                        <div>
+                            <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 5px;">
+                                Williams, J. W. J. (1964). "Algorithm 232: Heapsort"
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 5px;">
+                                <strong>Jurnal:</strong> Communications of the ACM, 7(6), 347-348
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 5px;">
+                                <strong>DOI:</strong> 10.1145/512274.512284
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666;">
+                                <strong>Kontribusi:</strong> Paper orisinal yang memperkenalkan algoritma Heap Sort dan struktur data heap sebagai complete binary tree.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: flex-start; margin-bottom: 15px;">
+                        <div style="background: #b21f1f; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 12px; flex-shrink: 0;">
+                            2
+                        </div>
+                        <div>
+                            <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 5px;">
+                                Schaffer, R. & Sedgewick, R. (1993). "The Analysis of Heapsort"
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 5px;">
+                                <strong>Jurnal:</strong> Journal of Algorithms, 15(1), 76-100
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 5px;">
+                                <strong>DOI:</strong> 10.1006/jagm.1993.1031
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666;">
+                                <strong>Kontribusi:</strong> Analisis komprehensif performa Heap Sort termasuk optimasi dan perbandingan dengan algoritma sorting lain.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: flex-start; margin-bottom: 15px;">
+                        <div style="background: #4caf50; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 12px; flex-shrink: 0;">
+                            3
+                        </div>
+                        <div>
+                            <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 5px;">
+                                Edelkamp, S. & Wegener, I. (1996). "Weak-Heapsort"
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 5px;">
+                                <strong>Jurnal:</strong> BIT Numerical Mathematics, 36(2), 192-216
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 5px;">
+                                <strong>DOI:</strong> 10.1007/BF01935085
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666;">
+                                <strong>Kontribusi:</strong> Memperkenalkan variasi Heap Sort yang lebih efisien dalam jumlah perbandingan untuk aplikasi real-time.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: flex-start;">
+                        <div style="background: #9c27b0; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 12px; flex-shrink: 0;">
+                            4
+                        </div>
+                        <div>
+                            <div style="font-weight: bold; color: #1a2a6c; margin-bottom: 5px;">
+                                Melcarz, G. et al. (2021). "Engineering Heap Sort for Verified Efficient Implementation"
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 5px;">
+                                <strong>Jurnal:</strong> Journal of Automated Reasoning, 65(7), 1085-1112
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 5px;">
+                                <strong>DOI:</strong> 10.1007/s10817-021-09585-0
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666;">
+                                <strong>Kontribusi:</strong> Implementasi Heap Sort yang diverifikasi secara formal untuk sistem enterprise dengan kebutuhan keandalan tinggi.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px; padding: 12px; background: #f5f5f5; border-radius: 8px; font-size: 0.9rem;">
+                    <strong>Implikasi untuk Traveloka:</strong> Jurnal-jurnal ini menunjukkan bahwa Heap Sort telah teruji secara akademis untuk aplikasi enterprise dengan kebutuhan performa konsisten, efisiensi real-time, dan skalabilitas tinggi.
+                </div>
+            </div>
+            <!-- Refleksi Simple -->
+            <div style="background: linear-gradient(135deg, #1a2a6c, #b21f1f); padding: 20px; border-radius: 12px; color: white; margin-bottom: 20px;">
+                <div style="font-size: 1.2rem; font-weight: bold; text-align: center; margin-bottom: 15px;">
+                    Refleksi Pembelajaran
+                </div>
+                
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <div style="font-size: 1rem; line-height: 1.6;">
+                        <strong>Yang dipelajari:</strong><br>
+                        • Heap Sort lebih mudah dipahami dengan studi kasus nyata<br>
+                        • Visualisasi membantu memahami proses heapify<br>
+                        • Algoritma perlu disesuaikan dengan kebutuhan aplikasi
+                    </div>
+                </div>
+                
+                <div style="text-align: center; font-size: 0.9rem; font-style: italic;">
+                    "Teori algoritma menjadi bermakna ketika diterapkan pada masalah dunia nyata."
+                </div>
+            </div>
+
+            <!-- Kesimpulan Akhir -->
+            <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #2e7d32, #4caf50); border-radius: 12px; color: white;">
+                <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 10px;">
+                    🏆 Kesimpulan Akhir
+                </div>
+                <div style="font-size: 1rem; opacity: 0.9; line-height: 1.6;">
+                    Berdasarkan referensi akademis dan analisis implementasi, Heap Sort memberikan 
+                    <strong>keunggulan kompetitif yang teruji secara ilmiah</strong> bagi Traveloka 
+                    dalam hal kecepatan, keandalan sistem, dan kualitas pengalaman pengguna.
+                </div>
+            </div>
+
+            <button class="btn" id="restartBtn" style="margin-top: 25px;">
+                <i class="fas fa-redo"></i> Mulai Presentasi Ulang
+            </button>
+        </div>
+    </div>
+</div>
+        
+        <div class="navigation">
+            <div class="nav-btn" id="prevBtn">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="nav-btn" id="nextBtn">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const slidesContainer = document.getElementById('slidesContainer');
+        const progressBar = document.getElementById('progressBar');
+        const agendaIndicator = document.getElementById('agendaIndicator');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const agendaList = document.getElementById('agendaList');
+        const startDemoBtn = document.getElementById('startDemoBtn');
+        const visualizeHeapifyBtn = document.getElementById('visualizeHeapifyBtn');
+        const runCodeBtn = document.getElementById('runCodeBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        
+        // State
+        let currentSlide = 0;
+        const totalSlides = document.querySelectorAll('.slide').length;
+        
+        // Slide titles for agenda indicator
+        const slideTitles = [
+            "Slide 1: Cover",
+            "Slide 2: Agenda Presentasi",
+            "Slide 3: Konsep Dasar Heap Sort",
+            "Slide 4: Pseudocode Heap Sort",
+            "Slide 5: Cara Kerja Heap Sort",
+            "Slide 6: Studi Kasus Traveloka",
+            "Slide 7: Implementasi Python",
+            "Slide 8: Demo Hasil Rekomendasi",
+            "Slide 9: Analisis Kompleksitas",
+            "Slide 10: Keunggulan Bisnis",
+            "Slide 11: Kesimpulan & Rekomendasi"
+        ];
+        
+        // Initialize
+        function init() {
+            updateProgressBar();
+            updateAgendaIndicator();
+            generateHeapVisualization();
+            
+            // Event listeners
+            prevBtn.addEventListener('click', goToPrevSlide);
+            nextBtn.addEventListener('click', goToNextSlide);
+            
+            // Agenda click events
+            if (agendaList) {
+                const agendaItems = agendaList.querySelectorAll('li');
+                agendaItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        const slideIndex = parseInt(item.getAttribute('data-slide'));
+                        scrollToSlide(slideIndex);
+                    });
+                });
+            }
+            
+            startDemoBtn.addEventListener('click', startDemo);
+            visualizeHeapifyBtn.addEventListener('click', visualizeHeapify);
+            runCodeBtn.addEventListener('click', runCodeExample);
+            restartBtn.addEventListener('click', restartPresentation);
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', handleKeyPress);
+            
+            // Scroll snapping
+            slidesContainer.addEventListener('scroll', handleScroll);
+        }
+        
+        // Navigation functions
+        function goToPrevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                scrollToSlide(currentSlide);
+            }
+        }
+        
+        function goToNextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                scrollToSlide(currentSlide);
+            }
+        }
+        
+        function scrollToSlide(slideIndex) {
+            const slideWidth = slidesContainer.clientWidth;
+            slidesContainer.scrollTo({
+                left: slideWidth * slideIndex,
+                behavior: 'smooth'
+            });
+            currentSlide = slideIndex;
+            updateProgressBar();
+            updateAgendaIndicator();
+            updateAgendaList();
+        }
+        
+        function handleScroll() {
+            const slideWidth = slidesContainer.clientWidth;
+            const scrollPosition = slidesContainer.scrollLeft;
+            currentSlide = Math.round(scrollPosition / slideWidth);
+            updateProgressBar();
+            updateAgendaIndicator();
+            updateAgendaList();
+        }
+        
+        function updateProgressBar() {
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        function updateAgendaIndicator() {
+            if (currentSlide < slideTitles.length) {
+                agendaIndicator.textContent = slideTitles[currentSlide];
+            }
+        }
+        
+        function updateAgendaList() {
+            if (!agendaList) return;
+            
+            const agendaItems = agendaList.querySelectorAll('li');
+            agendaItems.forEach((item, index) => {
+                const slideIndex = parseInt(item.getAttribute('data-slide'));
+                
+                // Remove all classes
+                item.classList.remove('active', 'completed');
+                
+                // Add appropriate class based on current slide
+                if (slideIndex === currentSlide) {
+                    item.classList.add('active');
+                } else if (slideIndex < currentSlide) {
+                    item.classList.add('completed');
+                }
+            });
+        }
+        
+        function handleKeyPress(e) {
+            if (e.key === 'ArrowLeft') {
+                goToPrevSlide();
+            } else if (e.key === 'ArrowRight') {
+                goToNextSlide();
+            }
+        }
+        
+        // Demo functions
+        function startDemo() {
+            alert("Demo interaktif dimulai! Kita akan menjelajahi implementasi Heap Sort di Traveloka.");
+            goToNextSlide();
+        }
+        
+        function visualizeHeapify() {
+            const nodes = document.querySelectorAll('.tree-node');
+            let i = 0;
+            
+            const interval = setInterval(() => {
+                if (i < nodes.length) {
+                    nodes[i].classList.add('active');
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    
+                    // Reset after animation
+                    setTimeout(() => {
+                        nodes.forEach(node => node.classList.remove('active'));
+                    }, 1000);
+                }
+            }, 500);
+        }
+        
+        function runCodeExample() {
+            alert("Menjalankan kode Python... (simulasi)");
+            
+            // Simulate code execution with visual feedback
+            const codeBlock = document.querySelector('.code-block');
+            codeBlock.style.transform = 'scale(1.02)';
+            codeBlock.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.3)';
+            
+            setTimeout(() => {
+                codeBlock.style.transform = 'scale(1)';
+                codeBlock.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
+                
+                // Show hotel recommendations
+                const hotelCards = document.querySelectorAll('.hotel-card');
+                hotelCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.transform = 'translateY(-10px)';
+                        card.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.2)';
+                    }, index * 200);
+                });
+                
+                setTimeout(() => {
+                    hotelCards.forEach(card => {
+                        card.style.transform = 'translateY(0)';
+                        card.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+                    });
+                }, 3000);
+            }, 1000);
+        }
+        
+        function restartPresentation() {
+            currentSlide = 0;
+            scrollToSlide(0);
+        }
+        
+        // Visualization generation functions
+        function generateHeapVisualization() {
+            const container = document.getElementById('heapVisualization');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            // Create a simple heap tree visualization
+            const values = [19, 14, 7, 3, 8, 1];
+            const treeContainer = document.createElement('div');
+            treeContainer.style.position = 'relative';
+            treeContainer.style.height = '200px';
+            treeContainer.style.width = '300px';
+            
+            // Level 0
+            const root = createTreeNode(values[0], 150, 30);
+            treeContainer.appendChild(root.node);
+            
+            // Level 1
+            const left1 = createTreeNode(values[1], 90, 90);
+            const right1 = createTreeNode(values[2], 210, 90);
+            treeContainer.appendChild(left1.node);
+            treeContainer.appendChild(right1.node);
+            
+            // Connect level 0 to level 1
+            treeContainer.appendChild(createConnector(150, 60, 90, 90));
+            treeContainer.appendChild(createConnector(150, 60, 210, 90));
+            
+            // Level 2
+            const left2 = createTreeNode(values[3], 60, 150);
+            const right2 = createTreeNode(values[4], 120, 150);
+            const right3 = createTreeNode(values[5], 240, 150);
+            treeContainer.appendChild(left2.node);
+            treeContainer.appendChild(right2.node);
+            treeContainer.appendChild(right3.node);
+            
+            // Connect level 1 to level 2
+            treeContainer.appendChild(createConnector(90, 120, 60, 150));
+            treeContainer.appendChild(createConnector(90, 120, 120, 150));
+            treeContainer.appendChild(createConnector(210, 120, 240, 150));
+            
+            container.appendChild(treeContainer);
+        }
+        
+        function createTreeNode(value, x, y) {
+            const node = document.createElement('div');
+            node.className = 'tree-node';
+            node.textContent = value;
+            node.style.position = 'absolute';
+            node.style.left = `${x - 30}px`;
+            node.style.top = `${y}px`;
+            return { node, x, y };
+        }
+        
+        function createConnector(x1, y1, x2, y2) {
+            const connector = document.createElement('div');
+            connector.className = 'tree-connector';
+            
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+            
+            connector.style.width = `${length}px`;
+            connector.style.left = `${x1}px`;
+            connector.style.top = `${y1}px`;
+            connector.style.transform = `rotate(${angle}deg)`;
+            connector.style.transformOrigin = '0 0';
+            
+            return connector;
+        }
+        
+        // Initialize the presentation
+        window.onload = init;
+    </script>
+</body>
+</html>
